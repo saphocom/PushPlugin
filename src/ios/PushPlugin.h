@@ -27,14 +27,10 @@
 #import <Cordova/CDV.h>
 #import <Cordova/CDVPlugin.h>
 
+#define SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+
 @interface PushPlugin : CDVPlugin
 {
-    NSDictionary *notificationMessage;
-    BOOL    isInline;
-    NSString *notificationCallbackId;
-    NSString *callback;
-    
-    BOOL ready;
 }
 
 @property (nonatomic, copy) NSString *callbackId;
@@ -42,14 +38,13 @@
 @property (nonatomic, copy) NSString *callback;
 
 @property (nonatomic, strong) NSDictionary *notificationMessage;
-@property BOOL                          isInline;
+@property (nonatomic, assign) BOOL isInForeground;
 
 - (void)register:(CDVInvokedUrlCommand*)command;
 
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error;
 
-- (void)setNotificationMessage:(NSDictionary *)notification;
 - (void)notificationReceived;
 
 @end
